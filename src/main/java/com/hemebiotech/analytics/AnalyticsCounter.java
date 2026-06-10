@@ -10,30 +10,30 @@ public class AnalyticsCounter {
 	private static int pupilCount = 0;		// initialize to 0
 
 	public static void main(String args[]) throws Exception {
-		// first get input
+		// Read the input file
 		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
 		String line = reader.readLine();
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
 		while (line != null) {
-			i++;	// increment i
 			System.out.println("symptom from file: " + line);
 			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
+				headacheCount++;
+				System.out.println("number of headaches: " + headacheCount);
 			}
-			else if (line.equals("rush")) {
+			else if (line.equals("rash")) {
 				rashCount++;
+				System.out.println("number of rashes: " + rashCount);
 			}
 			else if (line.contains("pupils")) {
 				pupilCount++;
+				System.out.println("number of dialated pupils: " + pupilCount);
 			}
 
 			line = reader.readLine();	// get another symptom
 		}
+		reader.close();
 
-		// next generate output
+		// Generate the output result
 		FileWriter writer = new FileWriter ("result.out");
 		writer.write("headache: " + headacheCount + "\n");
 		writer.write("rash: " + rashCount + "\n");
