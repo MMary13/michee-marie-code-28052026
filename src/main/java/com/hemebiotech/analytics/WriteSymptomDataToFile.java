@@ -1,5 +1,8 @@
 package com.hemebiotech.analytics;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
@@ -12,6 +15,9 @@ import java.util.Map;
  * count.
  */
 public class WriteSymptomDataToFile implements ISymptomWriter{
+
+    private static final Logger logger =
+            LogManager.getLogger(WriteSymptomDataToFile.class);
 
     public WriteSymptomDataToFile() {
     }
@@ -31,7 +37,7 @@ public class WriteSymptomDataToFile implements ISymptomWriter{
                 try {
                     finalWriter.write(symptom+":"+count+"\n");
                 } catch (IOException e) {
-                    //TODO: Better exception treatment
+                    logger.error("Unable to write the output file:",e);
                     throw new RuntimeException(e);
                 }
             });

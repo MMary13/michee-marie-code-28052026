@@ -1,5 +1,8 @@
 package com.hemebiotech.analytics;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,6 +22,8 @@ import java.util.TreeMap;
 public class ReadSymptomDataFromFile implements ISymptomReader {
 
 	private final String filepath;
+	private static final Logger logger =
+			LogManager.getLogger(ReadSymptomDataFromFile.class);
 
 	/**
 	 * Creates a reader that retrieves symptom data from the specified file.
@@ -56,7 +61,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				}
 				reader.close();
             } catch (IOException e) {
-				//TODO: Better exception treatment (log the error and return an empty Map)
+				logger.error("Unable to read symptom file: {}", filepath, e);
                 throw new RuntimeException(e);
             }
 

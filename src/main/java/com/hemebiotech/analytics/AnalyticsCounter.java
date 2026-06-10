@@ -1,4 +1,7 @@
 package com.hemebiotech.analytics;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Map;
 
 /**
@@ -12,14 +15,15 @@ import java.util.Map;
  * </ul>
  */
 public class AnalyticsCounter {
-
+	private static final Logger logger =
+			LogManager.getLogger(AnalyticsCounter.class.getName());
 	/**
 	 * Starts the symptom analytics process.
 	 *
 	 * @param args command-line arguments (not used)
 	 */
 	public static void main(String[] args) {
-
+		logger.info("Starting symptom analytics process");
 		// Read the input file and count symptom occurrences
 		ReadSymptomDataFromFile inputFile = new ReadSymptomDataFromFile("src/symptoms.txt");
 		Map<String,Integer> symptomsCounts = inputFile.getSymptomsCounts();
@@ -27,5 +31,6 @@ public class AnalyticsCounter {
 		//Write the results to the output file
 		WriteSymptomDataToFile outputFile = new WriteSymptomDataToFile();
 		outputFile.writeSymptoms(symptomsCounts);
+		logger.info("Process ended: results have been generated in an output file");
 	}
 }
