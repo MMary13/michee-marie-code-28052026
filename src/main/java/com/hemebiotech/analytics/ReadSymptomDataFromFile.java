@@ -1,44 +1,54 @@
 package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Simple brute force implementation of ISymptomReader
+ * Implementation of {@link ISymptomReader} that reads symptom data from a text file.
  *
+ * The input file is expected to contain one symptom per line. This class
+ * counts the occurrences of each symptom and returns the results as a map,
+ * where the key is the symptom name and the value is the number of times
+ * the symptom appears in the file.
+ *
+ * The returned map is sorted alphabetically by symptom name.
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
 
-	private final String FILEPATH;
-	
+	private final String filepath;
+
 	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
+	 * Creates a reader that retrieves symptom data from the specified file.
+	 *
+	 * @param filepath the path to the input file containing symptom names,
+	 *                 one symptom per line
 	 */
 	public ReadSymptomDataFromFile (String filepath) {
-		this.FILEPATH = filepath;
+		this.filepath = filepath;
 	}
 
 
 
 	/**
+	 * Reads the input file and counts the occurrences of each symptom.
 	 *
-	 * @return Map<String, Integer> with each type of symptom present in a file and
-	 * the number of occurrences for each symptom.
-	 * Use of a TreeMap to get the result in the right order
+	 * The returned map contains one entry per distinct symptom found in the file.
+	 * Keys represent symptom names and values represent the number of occurrences.
+	 * The map is sorted alphabetically by symptom name.
+	 *
+	 * @return a sorted map containing symptoms and their occurrence counts
+	 * @throws RuntimeException if an I/O error occurs while reading the file
 	 */
 	@Override
 	public Map<String, Integer> getSymptomsCounts() {
 		Map<String, Integer> symptomsCounts = new TreeMap<>();
 
-		if (FILEPATH != null) {
-            BufferedReader reader = null;
+		if (filepath != null) {
             try {
-                reader = new BufferedReader(new FileReader(FILEPATH));
+				BufferedReader reader =  new BufferedReader(new FileReader(filepath));
 				String line;
 
 				while ((line=reader.readLine() )!= null) {
@@ -46,7 +56,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				}
 				reader.close();
             } catch (IOException e) {
-				//TODO: Better exception treatment
+				//TODO: Better exception treatment (log the error and return an empty Map)
                 throw new RuntimeException(e);
             }
 
