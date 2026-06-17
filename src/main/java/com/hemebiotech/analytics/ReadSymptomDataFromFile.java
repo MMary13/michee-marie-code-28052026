@@ -62,11 +62,9 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				reader.close();
             } catch (IOException e) {
 				logger.error("Unable to read symptom file: {}", filepath, e);
-                throw new RuntimeException(e);
+				throw new IllegalStateException("Unable to read symptom file", e);
             }
-
         }
-
 		return symptomsCounts;
 	}
 }

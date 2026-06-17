@@ -16,10 +16,12 @@ import java.util.Map;
  */
 public class WriteSymptomDataToFile implements ISymptomWriter{
 
+    private final String filepath;
     private static final Logger logger =
             LogManager.getLogger(WriteSymptomDataToFile.class);
 
-    public WriteSymptomDataToFile() {
+    public WriteSymptomDataToFile(String filepath) {
+        this.filepath = filepath;
     }
 
     /**
@@ -32,19 +34,19 @@ public class WriteSymptomDataToFile implements ISymptomWriter{
     @Override
     public void writeSymptoms(Map<String, Integer> symptomsCounts) {
         try {
-            FileWriter finalWriter =  new FileWriter("result.out");
+            FileWriter finalWriter =  new FileWriter(filepath);
             symptomsCounts.forEach((symptom, count)->{
                 try {
                     finalWriter.write(symptom+":"+count+"\n");
                 } catch (IOException e) {
                     logger.error("Unable to write the output file:",e);
-                    throw new RuntimeException(e);
+                    throw new IllegalStateException("Unable to write the output file", e);
                 }
             });
             finalWriter.close();
         } catch (IOException e) {
-            //TODO: Better exception treatment
-            throw new RuntimeException(e);
+            logger.error("Unable to write the output file:",e);
+            throw new IllegalStateException("Unable to write the output file", e);
         }
     }
 }

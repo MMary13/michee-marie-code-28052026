@@ -29,7 +29,7 @@ public class AnalyticsCounter {
 		Map<String,Integer> symptomsCounts = inputFile.getSymptomsCounts();
 
 		//Write the results to the output file
-		WriteSymptomDataToFile outputFile = new WriteSymptomDataToFile();
+		WriteSymptomDataToFile outputFile = new WriteSymptomDataToFile("result.out");
 		outputFile.writeSymptoms(symptomsCounts);
 		logger.info("Process ended: results have been generated in an output file");
 	}
