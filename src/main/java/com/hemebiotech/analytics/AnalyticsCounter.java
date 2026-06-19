@@ -1,43 +1,37 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.Map;
+
+/**
+ * Entry point of the Hemebiotech analytics application.
+ * <p>
+ * This class coordinates the symptom analysis process by:
+ * <ul>
+ *     <li>Reading symptom data from the input file</li>
+ *     <li>Counting the occurrences of each symptom</li>
+ *     <li>Writing the aggregated results to an output file</li>
+ * </ul>
+ */
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
+    private static final Logger logger = LogManager.getLogger(AnalyticsCounter.class);
 
-	public static void main(String args[]) throws Exception {
-		// Read the input file
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
+    /**
+     * Starts the symptom analytics process.
+     *
+     * @param args command-line arguments (not used)
+     */
+    public static void main(String[] args) {
+        logger.info("Starting symptom analytics process");
+        // Read the input file and count symptom occurrences
+        ReadSymptomDataFromFile inputFile = new ReadSymptomDataFromFile("src/symptoms.txt");
+        Map<String, Integer> symptomsCounts = inputFile.getSymptomsCounts();
 
-		while (line != null) {
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headacheCount++;
-				System.out.println("number of headaches: " + headacheCount);
-			}
-			else if (line.equals("rash")) {
-				rashCount++;
-				System.out.println("number of rashes: " + rashCount);
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-				System.out.println("number of dialated pupils: " + pupilCount);
-			}
-
-			line = reader.readLine();	// get another symptom
-		}
-		reader.close();
-
-		// Generate the output result
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
-	}
+        //Write the results to the output file
+        WriteSymptomDataToFile outputFile = new WriteSymptomDataToFile("result.out");
+        outputFile.writeSymptoms(symptomsCounts);
+        logger.info("Process ended: results have been generated in an output file");
+    }
 }
