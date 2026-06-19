@@ -7,21 +7,21 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReadSymptomDataFromFileTest {
-    public static ReadSymptomDataFromFile instance;
+    private static ReadSymptomDataFromFile instance;
 
     @Test
-     void testReadSymptomDataFromFile() {
+    void testReadSymptomDataFromFile() {
         String filePath = "src/test/resources/symptoms-test.txt";
         instance = new ReadSymptomDataFromFile(filePath);
-        Map<String,Integer> symptoms = instance.getSymptomsCounts();
+        Map<String, Integer> symptoms = instance.getSymptomsCounts();
         assertNotNull(symptoms);
-        assertEquals(3,symptoms.get("headache"));
+        assertEquals(3, symptoms.get("headache"));
     }
 
     @Test
-     void failToReadSymptomDataFromFileWithWrongPath() {
+    void failToReadSymptomDataFromFileWithWrongPath() {
         String wrongPath = "src//resources/symptoms-test.txt";
-         instance = new ReadSymptomDataFromFile(wrongPath);
+        instance = new ReadSymptomDataFromFile(wrongPath);
         assertThrows(RuntimeException.class, instance::getSymptomsCounts);
 
     }

@@ -1,6 +1,7 @@
 package com.hemebiotech.analytics;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AnalyticsCounterTest {

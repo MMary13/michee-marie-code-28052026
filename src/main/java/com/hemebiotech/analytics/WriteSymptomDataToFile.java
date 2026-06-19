@@ -14,11 +14,10 @@ import java.util.Map;
  * The generated file contains one symptom per line along with its associated
  * count.
  */
-public class WriteSymptomDataToFile implements ISymptomWriter{
+public class WriteSymptomDataToFile implements ISymptomWriter {
 
     private final String filepath;
-    private static final Logger logger =
-            LogManager.getLogger(WriteSymptomDataToFile.class);
+    private static final Logger logger = LogManager.getLogger(WriteSymptomDataToFile.class);
 
     public WriteSymptomDataToFile(String filepath) {
         this.filepath = filepath;
@@ -34,18 +33,18 @@ public class WriteSymptomDataToFile implements ISymptomWriter{
     @Override
     public void writeSymptoms(Map<String, Integer> symptomsCounts) {
         try {
-            FileWriter finalWriter =  new FileWriter(filepath);
-            symptomsCounts.forEach((symptom, count)->{
+            FileWriter finalWriter = new FileWriter(filepath);
+            symptomsCounts.forEach((symptom, count) -> {
                 try {
-                    finalWriter.write(symptom+":"+count+"\n");
+                    finalWriter.write(symptom + ":" + count + "\n");
                 } catch (IOException e) {
-                    logger.error("Unable to write the output file:",e);
+                    logger.error("Unable to write the output file:", e);
                     throw new IllegalStateException("Unable to write the output file", e);
                 }
             });
             finalWriter.close();
         } catch (IOException e) {
-            logger.error("Unable to write the output file:",e);
+            logger.error("Unable to write the output file:", e);
             throw new IllegalStateException("Unable to write the output file", e);
         }
     }
